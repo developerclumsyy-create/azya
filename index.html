@@ -5,17 +5,18 @@
   <title>Азя</title>
   <style>
     :root {
-      --bg1: #0b0d12;
-      --bg2: #121720;
-      --bg3: #1a202b;
-      --card: rgba(20, 24, 32, 0.78);
+      --bg1: #090b10;
+      --bg2: #111622;
+      --bg3: #1a2130;
+      --card: rgba(16, 19, 26, 0.82);
       --card-border: rgba(255, 255, 255, 0.10);
       --text: #eef1f6;
-      --muted: #b4bcc8;
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
-      --yes: #7f8cff;
-      --no: #3d4656;
-      --no-hover: #555f72;
+      --muted: #aab3c2;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.52);
+      --yes: #7281ff;
+      --no: #3a4454;
+      --no-hover: #505c70;
+      --accent: #b6c1ff;
     }* { box-sizing: border-box; }
 
 html, body {
@@ -32,11 +33,10 @@ body {
   display: grid;
   place-items: center;
   background:
-    radial-gradient(circle at 18% 20%, rgba(170, 185, 255, 0.12), transparent 18%),
-    radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.08), transparent 14%),
+    radial-gradient(circle at 18% 20%, rgba(170, 185, 255, 0.10), transparent 18%),
+    radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.06), transparent 14%),
     radial-gradient(circle at 50% 85%, rgba(120, 140, 210, 0.08), transparent 24%),
-    linear-gradient(180deg, var(--bg1), var(--bg2) 55%, var(--bg3));
-  background-size: 100% 100%;
+    linear-gradient(180deg, var(--bg1), var(--bg2) 58%, var(--bg3));
 }
 
 .sky {
@@ -64,9 +64,9 @@ body {
 
 .card {
   position: relative;
-  width: min(92vw, 460px);
-  min-height: 360px;
-  padding: 28px 24px 92px;
+  width: min(92vw, 480px);
+  min-height: 380px;
+  padding: 28px 24px 82px;
   border-radius: 28px;
   background: var(--card);
   border: 1px solid var(--card-border);
@@ -89,31 +89,63 @@ body {
   font-size: clamp(28px, 7vw, 44px);
   line-height: 1;
   letter-spacing: 0.02em;
+  position: relative;
+  z-index: 1;
 }
 
 .subtitle {
   margin: 0;
-  min-height: 90px;
+  min-height: 88px;
   font-size: clamp(16px, 3.8vw, 20px);
   line-height: 1.6;
   color: var(--text);
   white-space: pre-line;
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-.hint {
-  margin-top: 12px;
-  font-size: 12px;
+.final {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 30px;
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  pointer-events: none;
+  z-index: 2;
+  background: rgba(9, 11, 16, 0.08);
+}
+
+.final.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.final h2 {
+  margin: 0;
+  font-size: clamp(44px, 12vw, 82px);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+}
+
+.final p {
+  margin: 12px 0 0;
+  font-size: clamp(15px, 3.6vw, 18px);
   color: var(--muted);
-  opacity: 0.85;
-  min-height: 18px;
+  line-height: 1.5;
 }
 
 .buttons {
   position: absolute;
   left: 24px;
   right: 24px;
-  bottom: 24px;
+  bottom: 54px;
   height: 44px;
+  z-index: 3;
 }
 
 .btn {
@@ -154,42 +186,26 @@ body {
   background: linear-gradient(135deg, #555f72, #3a4251);
 }
 
-.final {
-  margin-top: 8px;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  color: #d9def0;
-}
-
-.final.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.pulse {
-  animation: pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1px); }
-}
-
 @media (max-width: 420px) {
   .card {
-    min-height: 380px;
-    padding: 24px 18px 86px;
+    min-height: 390px;
+    padding: 24px 18px 82px;
   }
 
   .buttons {
     left: 18px;
     right: 18px;
+    bottom: 52px;
   }
 
   .btn {
     min-width: 108px;
     padding-inline: 18px;
+  }
+
+  .music-bar {
+    left: 14px;
+    right: 14px;
   }
 }
 
@@ -198,10 +214,15 @@ body {
 <body>
   <div class="sky" id="sky"></div>  <main class="card" id="card">
     <h1 class="title">Азя</h1>
-    <p class="subtitle" id="mainText">Ты же сделаешь мне minet?</p>
-    <p class="final" id="finalText"></p>
-    <div class="hint" id="hintText">Нажми «Да» или попробуй поймать «Нет».</div><div class="buttons">
-  <button class="btn yes pulse" id="yesBtn">Да</button>
+    <p class="subtitle" id="mainText">Ты же сделаешь мне minet?</p><div class="final" id="finalOverlay">
+  <div>
+    <h2>Молодчинка!!</h2>
+    <p>Все как надо.</p>
+  </div>
+</div>
+
+<div class="buttons" id="buttons">
+  <button class="btn yes" id="yesBtn">Да</button>
   <button class="btn no" id="noBtn">Нет</button>
 </div>
 
@@ -211,8 +232,8 @@ body {
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
     const mainText = document.getElementById('mainText');
-    const finalText = document.getElementById('finalText');
-    const hintText = document.getElementById('hintText');
+    const finalOverlay = document.getElementById('finalOverlay');
+    const buttons = document.getElementById('buttons');
 
     let stage = 0;
     let fleeLock = false;
@@ -221,28 +242,29 @@ body {
       return Math.random() * (max - min) + min;
     }
 
-    function createStars(count = 70) {
+    function createStars(count = 80) {
       for (let i = 0; i < count; i++) {
         const star = document.createElement('div');
         star.className = 'star';
         star.style.left = `${rand(0, 100)}vw`;
         star.style.top = `${rand(0, 100)}vh`;
         star.style.animationDelay = `${rand(0, 4)}s`;
-        star.style.width = `${rand(1, 2.6)}px`;
-        star.style.height = star.style.width;
+        const size = `${rand(1, 2.6)}px`;
+        star.style.width = size;
+        star.style.height = size;
         star.style.opacity = `${rand(0.25, 0.9)}`;
         sky.appendChild(star);
       }
     }
 
     function fleeNo() {
-      if (fleeLock) return;
+      if (fleeLock || finalOverlay.classList.contains('show')) return;
       fleeLock = true;
 
       const cardRect = card.getBoundingClientRect();
       const btnRect = noBtn.getBoundingClientRect();
       const maxX = Math.max(0, cardRect.width - btnRect.width - 24);
-      const maxY = Math.max(0, cardRect.height - btnRect.height - 110);
+      const maxY = Math.max(0, cardRect.height - btnRect.height - 150);
 
       const x = rand(0, maxX);
       const y = rand(0, maxY);
@@ -253,38 +275,26 @@ body {
       setTimeout(() => { fleeLock = false; }, 140);
     }
 
-    function lockButtonsForHalfSecond() {
-      yesBtn.style.pointerEvents = 'none';
-      noBtn.style.pointerEvents = 'none';
-      setTimeout(() => {
-        yesBtn.style.pointerEvents = 'auto';
-        noBtn.style.pointerEvents = 'auto';
-      }, 500);
-    }
-
     yesBtn.addEventListener('click', () => {
       if (stage === 0) {
         mainText.textContent = '';
-        finalText.textContent = 'Молодчинка!!';
-        finalText.classList.add('show');
-        hintText.textContent = '';
-        lockButtonsForHalfSecond();
-
-        setTimeout(() => {
-          mainText.textContent = 'We are always together, right?';
-          finalText.classList.remove('show');
-          finalText.textContent = '';
-          hintText.textContent = 'Последний раз — только «Да».';
-          stage = 1;
-        }, 1400);
+        buttons.style.opacity = '0';
+        buttons.style.pointerEvents = 'none';
+        finalOverlay.classList.add('show');
+        stage = 1;
       } else {
         mainText.textContent = '';
-        finalText.textContent = 'You are the best friend, no cap. Always in my corner.';
-        finalText.classList.add('show');
-        hintText.textContent = '';
+        buttons.style.opacity = '0';
+        buttons.style.pointerEvents = 'none';
+        finalOverlay.innerHTML = `
+          <div>
+            <h2>Молодчинка!!</h2>
+            <p>Ты реально лучшая. Всё, конец сцены.</p>
+          </div>
+        `;
+        finalOverlay.classList.add('show');
         yesBtn.disabled = true;
         noBtn.disabled = true;
-        noBtn.style.pointerEvents = 'none';
       }
     });
 
