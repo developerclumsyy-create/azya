@@ -1,0 +1,362 @@
+<!DOCTYPE html><html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Азя 💖</title>
+  <style>
+    :root {
+      --bg1: #ff9ad5;
+      --bg2: #8a7dff;
+      --bg3: #6ee7ff;
+      --card: rgba(255, 255, 255, 0.18);
+      --card-border: rgba(255, 255, 255, 0.35);
+      --text: #ffffff;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+      --yes: #38d39f;
+      --no: #ff5f7a;
+    }* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background: #000;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.20), transparent 28%),
+    radial-gradient(circle at 80% 25%, rgba(255,255,255,0.14), transparent 22%),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,0.16), transparent 26%),
+    linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg3), #ff9ad5);
+  background-size: 200% 200%;
+  animation: bgMove 12s ease-in-out infinite;
+}
+
+@keyframes bgMove {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.floaters {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.heart {
+  position: absolute;
+  bottom: -40px;
+  font-size: clamp(16px, 2vw, 28px);
+  opacity: 0.55;
+  animation: rise linear infinite;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.12));
+  user-select: none;
+}
+
+@keyframes rise {
+  from { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.55; }
+  to   { transform: translateY(-110vh) rotate(180deg); opacity: 0; }
+}
+
+.card {
+  position: relative;
+  width: min(92vw, 440px);
+  min-height: 360px;
+  padding: 28px 24px 88px;
+  border-radius: 28px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,0.34), rgba(255,255,255,0.06), rgba(255,255,255,0.18));
+  pointer-events: none;
+  mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+  -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+  padding: 1px;
+  opacity: 0.55;
+}
+
+.title {
+  font-size: clamp(30px, 7vw, 46px);
+  line-height: 1;
+  margin: 0 0 10px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 6px 24px rgba(0,0,0,0.18);
+}
+
+.subtitle {
+  margin: 0 0 18px;
+  font-size: clamp(15px, 3.8vw, 18px);
+  line-height: 1.55;
+  opacity: 0.95;
+  min-height: 56px;
+}
+
+.status {
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: 0.85;
+  min-height: 20px;
+}
+
+.buttons {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  height: 44px;
+}
+
+.btn {
+  position: absolute;
+  border: 0;
+  outline: 0;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-weight: 800;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 12px 22px rgba(0,0,0,0.18);
+  transition: transform 0.18s ease, filter 0.18s ease, opacity 0.25s ease;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.btn:hover { transform: translateY(-2px) scale(1.03); }
+
+.yes {
+  left: 0;
+  background: linear-gradient(135deg, #27d7a0, #1fbf8b);
+  min-width: 122px;
+}
+
+.no {
+  right: 0;
+  background: linear-gradient(135deg, #ff7890, #ff4f70);
+  min-width: 122px;
+}
+
+.message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 26px;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.message.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.message h2 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 8vw, 48px);
+  line-height: 1;
+}
+
+.message p {
+  margin: 0;
+  font-size: clamp(16px, 4vw, 20px);
+  line-height: 1.5;
+}
+
+.fade-out {
+  opacity: 0 !important;
+  transform: translateY(8px) scale(0.98) !important;
+  pointer-events: none !important;
+}
+
+.tiny {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-top: 8px;
+}
+
+@media (max-width: 420px) {
+  .card {
+    min-height: 390px;
+    padding: 24px 18px 86px;
+  }
+
+  .buttons {
+    left: 18px;
+    right: 18px;
+  }
+
+  .btn {
+    min-width: 108px;
+    padding-inline: 18px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="floaters" id="floaters"></div>  <main class="card" id="card">
+    <section class="screen" id="screen1">
+      <h1 class="title">Азя ✨</h1>
+      <p class="subtitle" id="mainText">Ты же сделаешь мне minet? 🫶</p>
+      <div class="status" id="statusText">Нажми «Да» или попробуй поймать «Нет» 😼</div>
+    </section><section class="message" id="screen2">
+  <div>
+    <h2>Молодчинка!!</h2>
+    <p>Потом всё красиво снова соберётся ✨</p>
+  </div>
+</section>
+
+<section class="message" id="screen3">
+  <div>
+    <h2>Азя, we’re so locked in 💘</h2>
+    <p>Ты literally the bestie ever, no cap. We’re together always??!</p>
+    <p class="tiny">Попробуй снова нажать «Нет» — не выйдет 😏</p>
+  </div>
+</section>
+
+<div class="buttons" id="buttons">
+  <button class="btn yes" id="yesBtn">Да</button>
+  <button class="btn no" id="noBtn">Нет</button>
+</div>
+
+  </main>  <script>
+    const card = document.getElementById('card');
+    const buttons = document.getElementById('buttons');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const mainText = document.getElementById('mainText');
+    const statusText = document.getElementById('statusText');
+    const screen1 = document.getElementById('screen1');
+    const screen2 = document.getElementById('screen2');
+    const screen3 = document.getElementById('screen3');
+    const floaters = document.getElementById('floaters');
+
+    let stage = 1;
+    let noRunning = false;
+
+    function randomBetween(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function moveNoButton() {
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+      const buttonsRect = buttons.getBoundingClientRect();
+
+      const pad = 10;
+      const maxX = buttonsRect.width - btnRect.width;
+      const maxY = Math.max(0, cardRect.height - buttonsRect.height - 110);
+
+      const x = randomBetween(pad, Math.max(pad, maxX - pad));
+      const y = randomBetween(-maxY, 0);
+
+      noBtn.style.transform = `translate(${x - (buttonsRect.width - btnRect.width)}px, ${y}px) rotate(${randomBetween(-10, 10)}deg)`;
+      noBtn.style.transition = 'transform 0.14s ease-out';
+    }
+
+    function fleeNo() {
+      if (noRunning) return;
+      noRunning = true;
+      moveNoButton();
+      setTimeout(() => { noRunning = false; }, 140);
+    }
+
+    function emitHearts(count = 18) {
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.className = 'heart';
+        el.textContent = Math.random() > 0.5 ? '💖' : '✨';
+        el.style.left = `${Math.random() * 100}vw`;
+        el.style.animationDuration = `${randomBetween(5, 11)}s`;
+        el.style.animationDelay = `${randomBetween(0, 1.5)}s`;
+        el.style.fontSize = `${randomBetween(14, 30)}px`;
+        floaters.appendChild(el);
+        setTimeout(() => el.remove(), 12000);
+      }
+    }
+
+    function showScreen(target) {
+      [screen1, screen2, screen3].forEach(s => s.classList.remove('show'));
+      target.classList.add('show');
+    }
+
+    function resetButtons() {
+      buttons.classList.remove('fade-out');
+      yesBtn.disabled = false;
+      noBtn.disabled = false;
+      yesBtn.style.pointerEvents = 'auto';
+      noBtn.style.pointerEvents = 'auto';
+      yesBtn.style.transform = '';
+      noBtn.style.transform = '';
+      noBtn.style.transition = 'transform 0.18s ease';
+    }
+
+    yesBtn.addEventListener('click', () => {
+      if (stage === 1) {
+        buttons.classList.add('fade-out');
+        showScreen(screen2);
+        emitHearts(22);
+        yesBtn.disabled = true;
+        noBtn.disabled = true;
+
+        setTimeout(() => {
+          mainText.textContent = 'We’re gonna stay like this forever, always??! 💞';
+          statusText.textContent = 'Вторая попытка — тоже только «Да» 😌';
+          buttons.classList.remove('fade-out');
+          showScreen(screen1);
+          resetButtons();
+          stage = 2;
+          emitHearts(14);
+        }, 1800);
+      } else {
+        buttons.classList.add('fade-out');
+        showScreen(screen3);
+        emitHearts(26);
+        yesBtn.disabled = true;
+        noBtn.disabled = true;
+      }
+    });
+
+    noBtn.addEventListener('mouseenter', fleeNo);
+    noBtn.addEventListener('mousedown', fleeNo);
+    noBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      fleeNo();
+    }, { passive: false });
+
+    document.addEventListener('mousemove', () => {
+      if (Math.random() < 0.002) emitHearts(1);
+    });
+
+    emitHearts(18);
+    showScreen(screen1);
+    resetButtons();
+  </script></body>
+  </html>
